@@ -1,0 +1,3 @@
+$kind: collection
+description: Contains authentication-related requests for the Restful Booker API. This folder covers the login flow, including tests for valid credential scenarios that obtain a token for use in subsequent authenticated requests.
+order: 1000

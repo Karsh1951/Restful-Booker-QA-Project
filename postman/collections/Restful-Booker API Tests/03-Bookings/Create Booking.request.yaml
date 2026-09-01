@@ -1,0 +1,75 @@
+$kind: http-request
+url: "{{baseUrl}}/api/booking"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: "{\r
+
+    \    \"roomid\": {{roomId}},\r
+
+    \    \"firstname\": \"Christopher\",\r
+
+    \    \"lastname\": \"AlexanderJohn\",\r
+
+    \    \"depositpaid\": true,\r
+
+    \    \"bookingdates\": {\r
+
+    \        \"checkin\": \"2026-10-07\",\r
+
+    \        \"checkout\": \"2026-10-12\"\r
+
+    \    },\r
+
+    \    \"email\": \"gifton@example.com\",\r
+
+    \    \"phone\": \"07123456789\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      const jsonData = pm.response.json();
+
+      if (jsonData.roomid) {
+          pm.environment.set("roomId", jsonData.roomid);
+      }
+
+      pm.test("Status code is 201", function () {
+          pm.response.to.have.status(201);
+      });
+
+      pm.test("Response has bookingid", function () {
+          pm.expect(jsonData).to.have.property("bookingid");
+          pm.expect(jsonData.bookingid).to.be.a("number");
+      });
+
+      pm.test("Response has roomid", function () {
+          pm.expect(jsonData).to.have.property("roomid");
+          pm.expect(jsonData.roomid).to.be.a("number");
+      });
+
+      pm.test("Response has firstname and lastname", function () {
+          pm.expect(jsonData).to.have.property("firstname");
+          pm.expect(jsonData).to.have.property("lastname");
+      });
+
+      pm.test("Response has depositpaid", function () {
+          pm.expect(jsonData).to.have.property("depositpaid");
+          pm.expect(jsonData.depositpaid).to.be.a("boolean");
+      });
+
+      pm.test("Response has bookingdates with checkin and checkout", function () {
+          pm.expect(jsonData).to.have.property("bookingdates");
+          pm.expect(jsonData.bookingdates).to.have.property("checkin");
+          pm.expect(jsonData.bookingdates).to.have.property("checkout");
+      });
+    language: text/javascript
+settings: {}
+order: 1000

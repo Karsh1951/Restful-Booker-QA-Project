@@ -1,0 +1,5 @@
+workspace:
+  id: cf862d78-71b8-4631-8457-632da19f28d0
+cloudResources:
+  collections:
+    ../postman/collections/Restful-Booker API Tests: 53512727-abc3d6d0-d242-4fc5-b8f1-e6d7d395bff2
